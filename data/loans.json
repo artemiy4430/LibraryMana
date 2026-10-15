@@ -1,0 +1,49 @@
+[ {
+  "id" : 1,
+  "bookId" : 1,
+  "dueDate" : "2026-09-15",
+  "loanDate" : "2026-09-01",
+  "readerId" : 1,
+  "returnedDate" : "2026-09-10",
+  "status" : "RETURNED"
+}, {
+  "id" : 2,
+  "bookId" : 2,
+  "dueDate" : "2026-09-29",
+  "loanDate" : "2026-09-15",
+  "readerId" : 2,
+  "returnedDate" : null,
+  "status" : "ACTIVE"
+}, {
+  "id" : 3,
+  "bookId" : 3,
+  "dueDate" : "2026-08-24",
+  "loanDate" : "2026-08-10",
+  "readerId" : 3,
+  "returnedDate" : null,
+  "status" : "OVERDUE"
+}, {
+  "id" : 4,
+  "bookId" : 3,
+  "dueDate" : "2026-10-04",
+  "loanDate" : "2026-09-20",
+  "readerId" : 4,
+  "returnedDate" : null,
+  "status" : "ACTIVE"
+}, {
+  "id" : 5,
+  "bookId" : 1,
+  "dueDate" : "2026-09-26",
+  "loanDate" : "2026-09-12",
+  "readerId" : 5,
+  "returnedDate" : "2026-09-22",
+  "status" : "RETURNED"
+}, {
+  "id" : 6,
+  "bookId" : 3,
+  "dueDate" : "2026-10-07",
+  "loanDate" : "2026-09-30",
+  "readerId" : 4,
+  "returnedDate" : null,
+  "status" : "RETURNED"
+} ]

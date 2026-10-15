@@ -1,0 +1,41 @@
+[ {
+  "id" : 2,
+  "active" : true,
+  "author" : "Joshua Bloch",
+  "availableCopies" : 2,
+  "category" : "Computer Science",
+  "isbn" : "9780134685991",
+  "publicationYear" : 2017,
+  "title" : "Effective Java",
+  "totalCopies" : 3
+}, {
+  "id" : 4,
+  "active" : true,
+  "author" : "J.R.R. Tolkien",
+  "availableCopies" : 2,
+  "category" : "Fantasy",
+  "isbn" : "9780547928227",
+  "publicationYear" : 1937,
+  "title" : "The Hobbit",
+  "totalCopies" : 2
+}, {
+  "id" : 5,
+  "active" : false,
+  "author" : "frodrich koch",
+  "availableCopies" : 0,
+  "category" : "Computer Science",
+  "isbn" : "657489075483",
+  "publicationYear" : 2017,
+  "title" : "TCHAMIDAU",
+  "totalCopies" : 3
+}, {
+  "id" : 3,
+  "active" : true,
+  "author" : "George Orwell",
+  "availableCopies" : 4,
+  "category" : "Fiction",
+  "isbn" : "9780451524935",
+  "publicationYear" : 1949,
+  "title" : "1984",
+  "totalCopies" : 4
+} ]
