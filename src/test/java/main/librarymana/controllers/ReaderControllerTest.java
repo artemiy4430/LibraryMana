@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +49,20 @@ public class ReaderControllerTest {
     }
 
     @Test
+    void getAll_shouldReturnEmptyList_whenServiceReturnsEmptyList() {
+        when(readerService.getAll()).thenReturn(Collections.emptyList());
+
+        List<Reader> readers = readerController.getAll();
+
+        assertNotNull(readers);
+        assertEquals(0, readers.size());
+
+        verify(readerService).getAll();
+    }
+
+    //- не проверил getAll when laonService.getAll() is empty
+
+    @Test
     void getById_shouldReturnOk_whenReaderExists(){
         Reader reader = createReader();
 
@@ -62,15 +77,28 @@ public class ReaderControllerTest {
     }
 
     @Test
-    void getById_shouldReturnNotFound_whenReaderDoesNotExist(){
-        when(readerService.getById(999L)).thenReturn(Optional.empty());
+    void getById_shouldReturnNotFound_whenReaderDoesNotExist(){ //-
+        when(readerService.getById(-1L)).thenReturn(Optional.empty());
 
-        ResponseEntity<Reader> response = readerController.getById(999L);
+        ResponseEntity<Reader> response = readerController.getById(-1L);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
-        verify(readerService).getById(999L);
+        verify(readerService).getById(-1L);
     }
+
+    @Test
+    void getById_shouldThrowReaderNotFoundException_whenIdIsIncorrect() {
+        when(readerService.getById(12L)).thenThrow(new ReaderNotFoundException(12L));
+
+        assertThrows(ReaderNotFoundException.class, () -> {
+            readerController.getById(12L);
+        });
+
+        verify(readerService).getById(anyLong());
+    }
+
+    //- не проверил ReaderNotFoundException при getById
 
     @Test
     void getByEmail_shouldReturnOk_whenReaderExists() {

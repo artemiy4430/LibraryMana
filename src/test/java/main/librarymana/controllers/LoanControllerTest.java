@@ -7,6 +7,7 @@ import main.librarymana.exception.badRequestException.LoanAlreadyReturnedExcepti
 import main.librarymana.exception.notFoundException.BookNotFoundException;
 import main.librarymana.exception.notFoundException.LoanNotFoundException;
 import main.librarymana.exception.notFoundException.ReaderNotFoundException;
+import main.librarymana.model.Book;
 import main.librarymana.model.Loan;
 import main.librarymana.model.LoanStatus;
 import main.librarymana.service.LoanService;
@@ -44,7 +45,7 @@ public class LoanControllerTest {
         List<Loan> response = loanController.getAll();
 
         assertNotNull(response);
-        assertEquals(2, response.size());
+        assertEquals(loans.size(), response.size());
         assertEquals(loans.get(0).getId(), response.get(0).getId());
 
         verify(loanService).getAll();
@@ -80,9 +81,10 @@ public class LoanControllerTest {
 
     @Test
     void getById_shouldReturnNotFound_whenLoanDoesNotExist() {
-        when(loanService.getById(12L)).thenReturn(Optional.empty());
+        long incorrectId = -1L;
+        when(loanService.getById(incorrectId)).thenReturn(Optional.empty());
 
-        ResponseEntity<Loan> response = loanController.getById(12L);
+        ResponseEntity<Loan> response = loanController.getById(incorrectId);
 
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
@@ -142,7 +144,7 @@ public class LoanControllerTest {
         ResponseEntity<Void> response = loanController.addLoan(request);
 
         assertNotNull(response);
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNull(response.getBody());
 
         verify(loanService).addLoan(request);
@@ -188,6 +190,24 @@ public class LoanControllerTest {
 
         verify(loanService).addLoan(any());
     }
+
+
+    //- нет теста на book.get().getAvailableCopies() < 1
+    @Test
+    void addLoan_shouldThrowBookNotAvailableException_whenAvailableCopiesAreLessThanOne() {
+        CreateLoanRequest request = new CreateLoanRequest(1L, 1L, 14);
+
+        when(loanService.addLoan(request)).thenThrow(
+                new BookNotAvailableException("there are no available copies for the given book"));
+
+        assertThrows(BookNotAvailableException.class, () -> {
+            loanController.addLoan(request);
+        });
+
+        verify(loanService).addLoan(any());
+    }
+
+
 
     @Test
     void returnLoan_shouldReturnStatusNoContent_whenLoanIsReturned() {

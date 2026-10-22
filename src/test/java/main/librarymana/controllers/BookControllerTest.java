@@ -54,7 +54,7 @@ public class BookControllerTest {
 
         assertNotNull(response);
         assertNotNull(response.getBody());
-        assertEquals(2, response.getBody().size());
+        assertEquals(books.size(), response.getBody().size());
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         verify(bookService).getFilteredBooks(request);
@@ -267,13 +267,13 @@ public class BookControllerTest {
         ResponseEntity<BookResponse> response = bookController.updateBook(book.getId(), request);
 
         assertNotNull(response);
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(book.getId(), response.getBody().getId());
         assertEquals(request.getTitle(), response.getBody().getTitle());
         assertEquals(request.getAuthor(), response.getBody().getAuthor());
         assertEquals(request.getIsbn(), response.getBody().getIsbn());
         assertEquals(request.getCategory(), response.getBody().getCategory());
-        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
 
         verify(bookService).updateBook(anyLong(), any());
 
@@ -338,14 +338,15 @@ public class BookControllerTest {
     }
 
     @Test
-    void removeReader_shouldReturnStatusNotFound_whenReaderIsNotFound() {
+    void removeReader_shouldReturnStatusNotFound_whenReaderIsNotFound() { //-
         Long incorrectId = 12L;
 
-        when(bookService.removeBook(incorrectId)).thenThrow(new BookNotFoundException(incorrectId));
+        when(bookService.removeBook(incorrectId)).thenReturn(false);
 
-        assertThrows(BookNotFoundException.class, () -> {
-            bookController.remove(incorrectId);
-        });
+        ResponseEntity<Void> response = bookController.remove(incorrectId);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 
         verify(bookService).removeBook(anyLong());
     }

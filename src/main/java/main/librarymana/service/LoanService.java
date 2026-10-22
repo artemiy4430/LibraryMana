@@ -38,13 +38,13 @@ public class LoanService {
     }
 
     public Optional<Loan> getById(Long id) {
-            if (id < 0) {
-                return Optional.empty();
-            }
-            Optional<Loan> loan = loanRepository.getById(id);
+        if (id < 0) {
+            return Optional.empty();
+        }
+        Optional<Loan> loan = loanRepository.getById(id);
 
-            if (loan.isEmpty()) throw new LoanNotFoundException(id);
-            return loan;
+        if (loan.isEmpty()) throw new LoanNotFoundException(id);
+        return loan;
     }
 
     public Optional<Loan> getByReader(Long readerId) {

@@ -3,6 +3,7 @@ package main.librarymana.controller;
 import main.librarymana.dto.loan.CreateLoanRequest;
 import main.librarymana.model.Loan;
 import main.librarymana.service.LoanService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class LoanController {
     public ResponseEntity<Void> addLoan(@RequestBody CreateLoanRequest createLoanRequest) {
         loanService.addLoan(createLoanRequest);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/{id}")
